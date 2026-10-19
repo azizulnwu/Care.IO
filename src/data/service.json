@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Trusted Child Care",
+    "description": "Safe and reliable childcare support from trained and responsible caregivers. We help families provide attentive care for children when parents are working or unavailable.",
+    "category": "child-care",
+    "icon": "baby",
+    "features": [
+      "Supervised childcare",
+      "Play and learning activities",
+      "Meal and routine support",
+      "Regular family updates"
+    ],
+    "isActive": true
+  },
+  {
+    "title": "Elder Care",
+    "description": "Compassionate and dependable care for elderly family members, including daily assistance, companionship, medication reminders, and support with routine activities.",
+    "category": "elder-care",
+    "icon": "heart-handshake",
+    "features": [
+      "Daily activity assistance",
+      "Companionship",
+      "Medication reminders",
+      "Personal care support"
+    ],
+    "isActive": true
+  },
+  {
+    "title": "Personal Care Assistance",
+    "description": "Professional support for individuals who need help with everyday personal activities while maintaining their comfort, dignity, and independence.",
+    "category": "personal-care",
+    "icon": "user-round",
+    "features": [
+      "Personal hygiene assistance",
+      "Mobility support",
+      "Daily routine assistance",
+      "Companionship"
+    ],
+    "isActive": true
+  },
+  {
+    "title": "Home Care Support",
+    "description": "Reliable in-home care services designed to help families manage everyday care responsibilities in a comfortable and familiar environment.",
+    "category": "home-care",
+    "icon": "house-heart",
+    "features": [
+      "In-home assistance",
+      "Daily household support",
+      "Family coordination",
+      "Flexible care schedules"
+    ],
+    "isActive": true
+  },
+  {
+    "title": "Special Needs Care",
+    "description": "Dedicated care support for individuals who require additional attention, supervision, and assistance with their daily activities.",
+    "category": "special-care",
+    "icon": "accessibility",
+    "features": [
+      "Personal supervision",
+      "Daily activity assistance",
+      "Companionship",
+      "Family communication"
+    ],
+    "isActive": true
+  },
+  {
+    "title": "Flexible Care Plans",
+    "description": "Choose care schedules that match your family's needs, from short-term assistance to regular daily or long-term care arrangements.",
+    "category": "care-plans",
+    "icon": "calendar-clock",
+    "features": [
+      "Hourly care",
+      "Daily care",
+      "Weekly care",
+      "Long-term care"
+    ],
+    "isActive": true
+  }
+]

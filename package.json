@@ -9,14 +9,25 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "daisyui": "^5.7.37",
+    "mongodb": "^7.6.0",
     "next": "16.3.5",
+    "next-auth": "^4.24.15",
+    "nodemailer": "^7.0.13",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "react-hot-toast": "^2.6.1",
+    "react-icons": "^5.7.0",
+    "react-toastify": "^11.1.0",
+    "stripe": "^23.0.0",
+    "sweetalert2": "^11.26.25"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.3.3",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
-    "tailwindcss": "^4"
-  }
+    "tailwindcss": "^4.3.3"
+  },
+  "browserslist": "> 1%"
 }
