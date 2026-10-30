@@ -1,7 +1,7 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 const uri =process.env.MONGODB_URI;
 const dbName = process.env.DBNAME;
-console.log(process.env.MONGODB_URI)
+// console.log(process.env.MONGODB_URI)
 export const collections = {
   USERS:"users",
   SERVICE:"service",
@@ -9,7 +9,7 @@ export const collections = {
   BOOKINGSERVICES:"bookingServices",
   BOOKINGSERVICESFORADMIN:"bookingServicesForAdmin",
   USERREVIEWS:"userReviews",
-  USERFEEDBACK:"userFeedback",
+ PAYMENTHISTORY:"paymentHistory"
 
 }
 

@@ -8,6 +8,8 @@ import {
   FaLock,
   FaCreditCard,
   FaShieldHeart,
+  FaChevronDown,
+  FaTriangleExclamation,
 } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
 
@@ -51,7 +53,7 @@ const BookingPage = ({ service, districts }) => {
         body: JSON.stringify({ ...form, serviceId: _id }),
       });
       const data = await res.json();
-    
+
       if (!res.ok) throw new Error(data.error || "Payment failed");
       window.location.href = data.url; // Stripe Checkout
     } catch (err) {
@@ -61,220 +63,345 @@ const BookingPage = ({ service, districts }) => {
     }
   };
 
+  /* ------------------------------------------------------------------ */
+  /* Presentation only: class tokens                                     */
+  /* ------------------------------------------------------------------ */
   const field =
-    "w-full rounded-xl border border-[#1479C9]/20 bg-white px-4 py-3 text-sm text-[#041320] outline-none transition focus:border-[#1479C9] focus:ring-2 focus:ring-[#1479C9]/20 disabled:bg-gray-100";
-  const label = "mb-1.5 block text-sm font-semibold text-[#132e49]";
+    "block w-full min-h-11 rounded-xl border border-[#132e49]/15 bg-white px-4 py-2.5 text-sm text-[#041320] shadow-sm placeholder:text-[#132e49]/40 outline-none transition-[border-color,box-shadow] duration-150 motion-reduce:transition-none hover:border-[#132e49]/30 focus-visible:border-[#1479C9] focus-visible:ring-4 focus-visible:ring-[#1479C9]/15 disabled:cursor-not-allowed disabled:border-[#132e49]/10 disabled:bg-[#f1f4f7] disabled:text-[#132e49]/40 disabled:shadow-none";
+  const select = `${field} appearance-none pr-10`;
+  const label = "mb-1.5 block text-sm font-medium text-[#132e49]";
+  const legend = "flex items-center gap-3 text-base font-semibold text-[#041320]";
+  const req = (
+    <span aria-hidden="true" className="ml-0.5 text-[#c0392b]">
+      *
+    </span>
+  );
 
   return (
-    <main className="min-h-screen bg-[#f7f9fb] px-4 py-10 md:px-8 lg:px-12">
+    <main className="min-h-screen bg-[#f4f7fa] px-4 py-8 sm:py-12 md:px-8 lg:px-12">
       <div className="mx-auto max-w-6xl">
         <Link
           href={`/service-page/${_id}`}
-          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-[#1479C9] transition-colors hover:text-[#1065A8]"
+          className="group mb-8 inline-flex items-center gap-2 rounded-lg py-1 text-sm font-medium text-[#1479C9] outline-none transition-colors hover:text-[#0f5f9f] focus-visible:ring-4 focus-visible:ring-[#1479C9]/20"
         >
-          <FaArrowLeft />
-          Back to Service
+          <FaArrowLeft
+            aria-hidden="true"
+            className="text-xs transition-transform duration-150 group-hover:-translate-x-0.5 motion-reduce:transition-none"
+          />
+          Back to service
         </Link>
 
-        <div className="mb-8">
+        <header className="mb-8 max-w-2xl sm:mb-10">
           <p className="text-sm font-medium capitalize text-[#1479C9]">
             {category?.replace("-", " ")}
           </p>
-          <h1 className="text-3xl font-bold text-[#132e49] md:text-4xl">
+          <h1 className="mt-1 text-balance text-3xl font-bold tracking-tight text-[#132e49] md:text-4xl">
             Book {title}
           </h1>
-        </div>
+          <p className="mt-2 text-sm leading-relaxed text-[#132e49]/70 sm:text-base">
+            Choose a time and place, then pay securely to confirm your visit.
+          </p>
+        </header>
 
-        <form onSubmit={handlePay} className="grid gap-8 lg:grid-cols-3">
+        <form
+          onSubmit={handlePay}
+          className="grid items-start gap-6 lg:grid-cols-3 lg:gap-8"
+        >
           {/* ============== LEFT: BOOKING DETAILS ============== */}
-          <div className="rounded-2xl border border-[#1479C9]/10 bg-[#e5e9ec] p-6 shadow-lg md:p-8 lg:col-span-2">
-            <div className="mb-6 flex items-center gap-2">
-              <FaShieldHeart className="text-xl text-[#5DA83C]" />
+          <div className="rounded-2xl border border-[#132e49]/10 bg-white p-5 shadow-[0_1px_2px_rgba(19,46,73,0.04),0_8px_24px_-12px_rgba(19,46,73,0.12)] sm:p-8 lg:col-span-2">
+            <div className="mb-8 flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#5DA83C]/12 text-[#5DA83C]">
+                <FaShieldHeart aria-hidden="true" className="text-lg" />
+              </span>
               <h2 className="text-xl font-bold text-[#041320]">
-                Booking Details
+                Booking details
               </h2>
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
-                <label className={label}>Date</label>
-                <input
-                  type="date"
-                  // required
-                  className={field}
-                  value={form.date}
-                  onChange={set("date")}
-                  min={new Date().toISOString().split("T")[0]}
-                />
-              </div>
+            <div className="space-y-10">
+              {/* ---- Schedule ---- */}
+              <fieldset>
+                <legend className={`${legend} mb-5 w-full`}>
+                  <span>Schedule</span>
+                  <span
+                    aria-hidden="true"
+                    className="h-px flex-1 bg-[#132e49]/10"
+                  />
+                </legend>
+                <div className="grid gap-5 sm:grid-cols-3">
+                  <div>
+                    <label htmlFor="booking-date" className={label}>
+                      Date
+                    </label>
+                    <input
+                      id="booking-date"
+                      type="date"
+                      // required
+                      className={field}
+                      value={form.date}
+                      onChange={set("date")}
+                      min={new Date().toISOString().split("T")[0]}
+                    />
+                  </div>
 
-              <div>
-                <label className={label}>Start Time</label>
-                <input
-                  type="time"
-                  required
-                  className={field}
-                  value={form.time}
-                  onChange={set("time")}
-                />
-              </div>
+                  <div>
+                    <label htmlFor="booking-time" className={label}>
+                      Start time {req}
+                    </label>
+                    <input
+                      id="booking-time"
+                      type="time"
+                      required
+                      className={field}
+                      value={form.time}
+                      onChange={set("time")}
+                    />
+                  </div>
 
-              <div>
-                <label className={label}>District</label>
-                <select
-                  required
-                  className={field}
-                  value={form.district}
-                  onChange={(e) =>
-                    setForm((f) => ({
-                      ...f,
-                      district: e.target.value,
-                      area: "",
-                    }))
-                  }
-                >
-                  <option value="">Select district</option>
-                  {districts.map((d) => (
-                    <option key={d.district} value={d.district}>
-                      {d.district}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                  <div>
+                    <label htmlFor="booking-hours" className={label}>
+                      Number of hours {req}
+                    </label>
+                    <input
+                      id="booking-hours"
+                      type="number"
+                      min={1}
+                      max={72}
+                      required
+                      inputMode="numeric"
+                      className={`${field} tabular-nums`}
+                      value={form.hours}
+                      onChange={set("hours")}
+                    />
+                  </div>
+                </div>
+              </fieldset>
 
-              <div>
-                <label className={label}>Area</label>
-                <select
-                  required
-                  className={field}
-                  value={form.area}
-                  onChange={set("area")}
-                  disabled={!areas.length}
-                >
-                  <option value="">Select area</option>
-                  {areas.map((a) => (
-                    <option key={a} value={a}>
-                      {a}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {/* ---- Location ---- */}
+              <fieldset>
+                <legend className={`${legend} mb-5 w-full`}>
+                  <span>Location</span>
+                  <span
+                    aria-hidden="true"
+                    className="h-px flex-1 bg-[#132e49]/10"
+                  />
+                </legend>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="booking-district" className={label}>
+                      District {req}
+                    </label>
+                    <div className="relative">
+                      <select
+                        id="booking-district"
+                        required
+                        className={select}
+                        value={form.district}
+                        onChange={(e) =>
+                          setForm((f) => ({
+                            ...f,
+                            district: e.target.value,
+                            area: "",
+                          }))
+                        }
+                      >
+                        <option value="">Select district</option>
+                        {districts.map((d) => (
+                          <option key={d.district} value={d.district}>
+                            {d.district}
+                          </option>
+                        ))}
+                      </select>
+                      <FaChevronDown
+                        aria-hidden="true"
+                        className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-[#132e49]/50"
+                      />
+                    </div>
+                  </div>
 
-              <div className="sm:col-span-2">
-                <label className={label}>Full Address</label>
-                <input
-                  // required
-                  // defaultValue={session?.address || ""}
-                  className={field}
-                  placeholder="House, road, landmark"
-                  value={form.address}
-                  onChange={set("address")}
-                />
-              </div>
+                  <div>
+                    <label htmlFor="booking-area" className={label}>
+                      Area {req}
+                    </label>
+                    <div className="relative">
+                      <select
+                        id="booking-area"
+                        required
+                        className={select}
+                        value={form.area}
+                        onChange={set("area")}
+                        disabled={!areas.length}
+                      >
+                        <option value="">Select area</option>
+                        {areas.map((a) => (
+                          <option key={a} value={a}>
+                            {a}
+                          </option>
+                        ))}
+                      </select>
+                      <FaChevronDown
+                        aria-hidden="true"
+                        className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-[#132e49]/50"
+                      />
+                    </div>
+                  </div>
 
-              <div>
-                <label className={label}>Phone Number</label>
-                <input
-                  type="tel"
-                  // required
-                  // defaultValue={session?.contact || ""}
-                  className={field}
-                  placeholder="01XXXXXXXXX"
-                  value={form.phone}
-                  onChange={set("phone")}
-                />
-              </div>
+                  <div className="sm:col-span-2">
+                    <label htmlFor="booking-address" className={label}>
+                      Full address
+                    </label>
+                    <input
+                      id="booking-address"
+                      // required
+                      // defaultValue={session?.address || ""}
+                      autoComplete="street-address"
+                      className={field}
+                      placeholder="House, road, landmark"
+                      value={form.address}
+                      onChange={set("address")}
+                    />
+                  </div>
+                </div>
+              </fieldset>
 
-              <div>
-                <label className={label}>Number of Hours</label>
-                <input
-                  type="number"
-                  min={1}
-                  max={72}
-                  required
-                  className={field}
-                  value={form.hours}
-                  onChange={set("hours")}
-                />
-              </div>
+              {/* ---- Contact ---- */}
+              <fieldset>
+                <legend className={`${legend} mb-5 w-full`}>
+                  <span>Contact and notes</span>
+                  <span
+                    aria-hidden="true"
+                    className="h-px flex-1 bg-[#132e49]/10"
+                  />
+                </legend>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="booking-phone" className={label}>
+                      Phone number
+                    </label>
+                    <input
+                      id="booking-phone"
+                      type="tel"
+                      // required
+                      // defaultValue={session?.contact || ""}
+                      autoComplete="tel"
+                      className={`${field} tabular-nums`}
+                      placeholder="01XXXXXXXXX"
+                      value={form.phone}
+                      onChange={set("phone")}
+                    />
+                  </div>
 
-              <div className="sm:col-span-2">
-                <label className={label}>Notes (optional)</label>
-                <textarea
-                  rows={3}
-                  className={field}
-                  placeholder="Anything we should know before the visit?"
-                  value={form.notes}
-                  onChange={set("notes")}
-                />
-              </div>
+                  <div className="sm:col-span-2">
+                    <label htmlFor="booking-notes" className={label}>
+                      Notes{" "}
+                      <span className="font-normal text-[#132e49]/50">
+                        (optional)
+                      </span>
+                    </label>
+                    <textarea
+                      id="booking-notes"
+                      rows={4}
+                      className={`${field} resize-y`}
+                      placeholder="Anything we should know before the visit?"
+                      value={form.notes}
+                      onChange={set("notes")}
+                    />
+                  </div>
+                </div>
+              </fieldset>
             </div>
           </div>
 
           {/* ============== RIGHT: SUMMARY + PAY ============== */}
-          <aside className="lg:col-span-1">
-            <div className="sticky top-6 rounded-2xl bg-[#e5e9ec] p-6 shadow-md">
-              <h2 className="text-xl font-bold text-[#132e49]">
-                Order Summary
-              </h2>
-              <p className="mt-1 text-sm text-gray-600">{title}</p>
+          <aside className="lg:col-span-1" aria-label="Order summary">
+            <div className="overflow-hidden rounded-2xl border border-[#132e49]/10 bg-white shadow-[0_1px_2px_rgba(19,46,73,0.04),0_8px_24px_-12px_rgba(19,46,73,0.12)] lg:sticky lg:top-6">
+              <div className="p-5 sm:p-6">
+                <h2 className="text-lg font-bold text-[#132e49]">
+                  Order summary
+                </h2>
+                <p className="mt-1 text-sm text-[#132e49]/70">{title}</p>
 
-              <div className="mt-5 space-y-3 rounded-xl bg-white p-4 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Rate per hour</span>
-                  <span className="font-semibold text-[#041320]">
-                    {rate} tk
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Hours</span>
-                  <span className="font-semibold text-[#041320]">{hours}</span>
-                </div>
-                <div className="border-t border-dashed pt-3">
-                  <label className="mb-1.5 block text-xs font-semibold text-gray-500">
-                    Total Cost
-                  </label>
-                  <input
-                    readOnly
-                    value={`${total} tk`}
-                    className="w-full rounded-lg bg-[#1479C9]/10 px-3 py-2 text-lg font-bold text-[#1479C9] outline-none"
-                  />
-                </div>
+                <dl className="mt-5 space-y-3 text-sm">
+                  <div className="flex items-center justify-between">
+                    <dt className="text-[#132e49]/65">Rate per hour</dt>
+                    <dd className="font-semibold tabular-nums text-[#041320]">
+                      {rate} tk
+                    </dd>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <dt className="text-[#132e49]/65">Hours</dt>
+                    <dd className="font-semibold tabular-nums text-[#041320]">
+                      {hours}
+                    </dd>
+                  </div>
+                </dl>
+
+                {features.length > 0 && (
+                  <ul className="mt-5 space-y-2.5 border-t border-[#132e49]/10 pt-5">
+                    {features.map((f, i) => (
+                      <li
+                        key={i}
+                        className="flex items-start gap-2.5 text-sm leading-snug text-[#132e49]"
+                      >
+                        <FaCircleCheck
+                          aria-hidden="true"
+                          className="mt-0.5 shrink-0 text-[#5DA83C]"
+                        />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
-              {features.length > 0 && (
-                <ul className="mt-5 space-y-2">
-                  {features.map((f, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2 text-xs text-[#041320]"
-                    >
-                      <FaCircleCheck className="mt-0.5 shrink-0 text-[#5c4db1]" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {/* Total + pay: the one high-contrast block on the page */}
+              <div className="bg-[#132e49] p-5 sm:p-6">
+                <label
+                  htmlFor="booking-total"
+                  className="block text-sm font-medium text-white/70"
+                >
+                  Total cost
+                </label>
+                <input
+                  id="booking-total"
+                  readOnly
+                  value={`${total} tk`}
+                  aria-live="polite"
+                  className="mt-1 w-full cursor-default bg-transparent text-4xl font-bold tabular-nums tracking-tight text-white outline-none"
+                />
 
-              {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
-
-              <button
-                type="submit"
-                disabled={loading || total <= 0}
-                className="btn mt-5 w-full border-none bg-[#1479C9] text-white shadow-md hover:bg-[#1065A8] disabled:bg-gray-300 disabled:text-gray-500"
-              >
-                {loading ? (
-                  <span className="loading loading-spinner loading-sm" />
-                ) : (
-                  <FaCreditCard />
+                {error && (
+                  <div
+                    role="alert"
+                    className="mt-4 flex items-start gap-2.5 rounded-xl border border-red-300/40 bg-red-50 px-3.5 py-3 text-sm leading-snug text-red-800"
+                  >
+                    <FaTriangleExclamation
+                      aria-hidden="true"
+                      className="mt-0.5 shrink-0 text-red-600"
+                    />
+                    <p>{error}</p>
+                  </div>
                 )}
-                {loading ? "Redirecting..." : `Pay ${total} tk`}
-              </button>
 
-              <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-gray-500">
-                <FaLock />
-                Secure payment powered by Stripe
-              </p>
+                <button
+                  type="submit"
+                  disabled={loading || total <= 0}
+                  aria-busy={loading}
+                  className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-[#1d8fe8] px-5 text-base font-semibold text-white shadow-lg shadow-black/20 outline-none transition-colors duration-150 motion-reduce:transition-none hover:bg-[#2a9bf2] focus-visible:ring-4 focus-visible:ring-white/40 active:bg-[#1479C9] disabled:cursor-not-allowed disabled:bg-white/15 disabled:text-white/50 disabled:shadow-none"
+                >
+                  {loading ? (
+                    <span className="loading loading-spinner loading-sm" />
+                  ) : (
+                    <FaCreditCard aria-hidden="true" />
+                  )}
+                  {loading ? "Redirecting..." : `Pay ${total} tk`}
+                </button>
+
+                <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-white/60">
+                  <FaLock aria-hidden="true" />
+                  Secure payment powered by Stripe
+                </p>
+              </div>
             </div>
           </aside>
         </form>

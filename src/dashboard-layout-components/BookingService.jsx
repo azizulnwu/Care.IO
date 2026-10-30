@@ -23,6 +23,7 @@ import {
   FaSpinner,
 } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa6";
+import Swal from "sweetalert2";
 const statusStyles = {
   pending: "bg-amber-100 text-amber-700",
   confirmed: "bg-green-100 text-green-700",
@@ -59,22 +60,35 @@ const BookingService = ({ booking }) => {
     if (response.modifiedCount > 0) {
       setError("");
       await bookingServiceStatusUpdate(_id, status)
-      router.refresh();
-      // onRefresh(); // Call the onRefresh function to refresh the data
-    }
-  };
-
-  const deleteBookingForAdmin = async (_id) => {
-    setLoading(true);
-    const response = await deleteBookingServiceForAdmin(_id);
-    console.log(response);
-    if (response.deletedCount) {
-      setError("");
       setLoading(false);
       router.refresh();
       // onRefresh(); // Call the onRefresh function to refresh the data
     }
   };
+
+const deleteBookingForAdmin = async (_id) => {
+  const { isConfirmed } = await Swal.fire({
+    title: "Delete this booking?",
+    text: "This action cannot be undone.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#F34E65",
+    confirmButtonText: "Yes, delete it",
+  });
+  if (!isConfirmed) return;
+
+  setLoadingAction("delete");
+  try {
+    const res = await deleteBookingServiceForAdmin(_id);
+    if (!res?.deletedCount) throw new Error();
+    Swal.fire({ title: "Deleted!", icon: "success", timer: 1200, showConfirmButton: false });
+    router.refresh();
+  } catch {
+    Swal.fire({ title: "Error", text: "Could not delete the booking.", icon: "error" });
+  } finally {
+    setLoadingAction("");
+  }
+};
 
   const Detail = ({ icon, label, value }) => (
     <div className="flex min-w-0 items-start gap-3">
@@ -189,7 +203,7 @@ const BookingService = ({ booking }) => {
                   onClick={() => updateAdminBookingStatus(_id, "confirm")}
                   className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#1479C9] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#1068ad] disabled:opacity-60"
                 >
-                  {loadingAction === "confirmed" ? (
+                  {loadingAction === "confirm" ? (
                     <FaSpinner className="animate-spin" />
                   ) : (
                     <FaCircleCheck />
@@ -213,8 +227,8 @@ const BookingService = ({ booking }) => {
               </div>
             )}
 
-            Delete Button
-            {(status === "confirmed" || status === "cancel") && (
+            {/* Delete Button */}
+            {(status === "completed" || status === "cancel") && (
               <div className="w-full">
                 <button
                   type="button"

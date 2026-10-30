@@ -1,6 +1,9 @@
 import { bookingServiceDataForAdmin } from "@/action/server/bookingServiceData";
-import BookingService from "@/components/dashbord-layout-components/BookingService";
+import BookingService from "../../../../dashboard-layout-components/BookingService";
 
+export const metadata = {
+  title: "All Booking",
+};
 const BookingAllServiceData = async () => {
   const data = await bookingServiceDataForAdmin();
 

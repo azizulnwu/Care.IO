@@ -7,7 +7,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
-console.log("Nodemail Email tam.");
+// console.log("Nodemail Email tam.");
 export async function sendBookingEmail({
   to,
   title,

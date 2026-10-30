@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -12,10 +11,10 @@ import {
 } from "react-icons/fa6";
 
 const statusStyles = {
-  pending: "bg-amber-100 text-amber-700",
-  confirmed: "bg-green-100 text-green-700",
-  complete: "bg-[#1479C9]/10 text-[#1479C9]",
-  cancel: "bg-[#F34E65]/10 text-[#F34E65]",
+  pending: "bg-amber-50 text-amber-800 ring-amber-200",
+  confirmed: "bg-[#5DA83C]/12 text-[#2f6b19] ring-[#5DA83C]/30",
+  complete: "bg-[#1479C9]/10 text-[#0f5f9f] ring-[#1479C9]/25",
+  cancel: "bg-rose-50 text-rose-700 ring-rose-200",
 };
 
 const DashboardHomePage = ({ data = [] }) => {
@@ -59,65 +58,68 @@ const DashboardHomePage = ({ data = [] }) => {
       value: totalBookings,
       description: "All your bookings",
       icon: FaCalendarCheck,
-      color: "text-[#1479C9]",
-      bg: "bg-[#1479C9]/10",
+      color: "text-white",
+      bg: "bg-white/10",
     },
     {
       title: "Pending",
       value: pendingBookings,
       description: "Awaiting confirmation",
       icon: FaClock,
-      color: "text-amber-600",
-      bg: "bg-amber-100",
+      color: "text-amber-700",
+      bg: "bg-amber-50",
     },
     {
       title: "Confirmed",
       value: confirmedBookings,
       description: "Ready to serve",
       icon: FaCircleCheck,
-      color: "text-green-600",
-      bg: "bg-green-100",
+      color: "text-[#3f8a22]",
+      bg: "bg-[#5DA83C]/12",
     },
     {
       title: "Completed",
       value: completedBookings,
       description: "Successfully completed",
       icon: FaHeart,
-      color: "text-[#F34E65]",
-      bg: "bg-[#F34E65]/10",
+      color: "text-[#0f5f9f]",
+      bg: "bg-[#1479C9]/10",
     },
     {
       title: "Cancelled",
       value: cancelledBookings,
       description: "Cancelled bookings",
       icon: FaXmark,
-      color: "text-[#F34E65]",
-      bg: "bg-[#F34E65]/10",
+      color: "text-rose-700",
+      bg: "bg-rose-50",
     },
   ];
 
   return (
-    <main className="min-h-screen bg-[#f7f9fb] px-4 py-6 md:px-8 md:py-10 lg:px-12">
-      <div className="mx-auto max-w-7xl space-y-8">
+    <main className="min-h-screen bg-[#f4f7fa] px-4 py-6 md:px-8 md:py-10 lg:px-12">
+      <div className="mx-auto max-w-7xl space-y-10">
         {/* Welcome Header */}
-        <section className="relative overflow-hidden rounded-2xl border border-[#1479C9]/10 bg-[#e5e9ec] p-6 shadow-sm md:p-10">
-          <div className="absolute left-0 top-0 flex h-1.5 w-full">
-            <div className="w-1/2 bg-[#1479C9]/70" />
-            <div className="w-1/4 bg-[#F34E65]/70" />
-            <div className="w-1/4 bg-[#5DA83C]/70" />
+        <section className="relative overflow-hidden rounded-2xl border border-[#132e49]/10 bg-white p-6 pt-9 shadow-[0_1px_2px_rgba(19,46,73,0.04),0_8px_24px_-12px_rgba(19,46,73,0.12)] md:p-10 md:pt-12">
+          <div
+            aria-hidden="true"
+            className="absolute left-0 top-0 flex h-1.5 w-full"
+          >
+            <div className="w-1/2 bg-[#1479C9]" />
+            <div className="w-1/4 bg-[#F34E65]" />
+            <div className="w-1/4 bg-[#5DA83C]" />
           </div>
 
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
             <div>
-              <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-[#1479C9]">
-                Care.io Dashboard
+              <p className="mb-2 text-sm font-medium text-[#1479C9]">
+                Care.io dashboard
               </p>
 
-              <h1 className="text-2xl font-bold text-gray-800 md:text-3xl">
+              <h1 className="text-balance text-3xl font-bold tracking-tight text-[#132e49] md:text-4xl">
                 Welcome back!
               </h1>
 
-              <p className="mt-3 max-w-xl text-sm leading-6 text-gray-600 md:text-base">
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#132e49]/70 md:text-base">
                 Manage your bookings, track service updates, and
                 find trusted care for the people who matter most.
               </p>
@@ -125,60 +127,85 @@ const DashboardHomePage = ({ data = [] }) => {
 
             <Link
               href="/service-page"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#1479C9] px-6 py-3 font-semibold text-white shadow-md transition hover:bg-[#1068ad]"
+              className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-[#1479C9] px-6 text-sm font-semibold text-white shadow-sm outline-none transition-colors duration-150 motion-reduce:transition-none hover:bg-[#0f5f9f] focus-visible:ring-4 focus-visible:ring-[#1479C9]/30 active:bg-[#0d548e] sm:text-base"
             >
-              <FaPlus />
+              <FaPlus aria-hidden="true" />
               Book a Service
             </Link>
           </div>
         </section>
 
         {/* Dynamic Statistics */}
-        <section>
+        <section aria-labelledby="booking-overview">
           <div className="mb-5">
-            <h2 className="text-xl font-bold text-gray-800">
+            <h2
+              id="booking-overview"
+              className="text-xl font-bold tracking-tight text-[#132e49]"
+            >
               Booking Overview
             </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-[#132e49]/70">
               A real-time summary of your booking records.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {stats.map((stat) => {
+          <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {stats.map((stat, index) => {
               const Icon = stat.icon;
+              const isTotal = index === 0;
 
               return (
                 <div
                   key={stat.title}
-                  className="rounded-2xl border border-[#1479C9]/10 bg-[#cfd6dd] p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                  className={
+                    isTotal
+                      ? "rounded-2xl bg-[#132e49] p-6 shadow-[0_8px_24px_-12px_rgba(19,46,73,0.5)] sm:col-span-2 xl:col-span-4 md:p-7"
+                      : "rounded-2xl border border-[#132e49]/10 bg-white p-5 shadow-[0_1px_2px_rgba(19,46,73,0.04),0_8px_24px_-12px_rgba(19,46,73,0.12)]"
+                  }
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">
+                    <div className="min-w-0">
+                      <dt
+                        className={`text-sm font-medium ${
+                          isTotal ? "text-white/70" : "text-[#132e49]/70"
+                        }`}
+                      >
                         {stat.title}
-                      </p>
+                      </dt>
 
-                      <h3 className="mt-2 text-3xl font-bold text-gray-800">
+                      <dd
+                        className={`mt-2 font-bold tabular-nums tracking-tight ${
+                          isTotal
+                            ? "text-5xl text-white"
+                            : "text-4xl text-[#132e49]"
+                        }`}
+                      >
                         {stat.value.toLocaleString("en-BD")}
-                      </h3>
+                      </dd>
                     </div>
 
                     <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-xl ${stat.bg} ${stat.color}`}
+                      aria-hidden="true"
+                      className={`flex shrink-0 items-center justify-center rounded-xl ${
+                        isTotal ? "h-14 w-14" : "h-12 w-12"
+                      } ${stat.bg} ${stat.color}`}
                     >
                       <Icon className="text-xl" />
                     </div>
                   </div>
 
-                  <p className="mt-4 text-xs text-gray-600">
+                  <dd
+                    className={`mt-4 text-xs ${
+                      isTotal ? "text-white/70" : "text-[#132e49]/65"
+                    }`}
+                  >
                     {stat.description}
-                  </p>
+                  </dd>
                 </div>
               );
             })}
-          </div>
+          </dl>
         </section>
 
         {/* Recent Bookings
@@ -250,7 +277,7 @@ const DashboardHomePage = ({ data = [] }) => {
         </section> */}
 
         {/* Footer */}
-        <p className="pb-4 text-center text-sm text-gray-500">
+        <p className="pb-4 text-center text-sm text-[#132e49]/65">
           Your family deserves the best care. Thank you for choosing{" "}
           <span className="font-semibold text-[#1479C9]">
             Care.io

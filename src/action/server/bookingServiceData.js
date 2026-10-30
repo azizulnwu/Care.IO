@@ -22,7 +22,7 @@ export const userBookingServiceData = async (email) => {
 };
 
 export const bookingServiceStatusUpdate = async (id, status) => {
-  console.log(id, status);
+  // console.log(id, status);
   const result = await dbConnection(collections.BOOKINGSERVICES).updateOne(
     { _id: new ObjectId(id) },
     { $set: { status: status } },
@@ -34,7 +34,7 @@ export const deleteBookingService = async (id) => {
   const result = await dbConnection(collections.BOOKINGSERVICES).deleteOne({
     _id: new ObjectId(id),
   });
-  console.log(result);
+  // console.log(result);
   return result;
 };
 
@@ -50,7 +50,7 @@ export const bookingServiceDataForAdmin = async () => {
 };
 
 export const bookingServiceStatusUpdateForAdmin = async (id, status) => {
-  console.log(id, status);
+  // console.log(id, status);
   const result = await dbConnection(
     collections.BOOKINGSERVICESFORADMIN,
   ).updateOne({ _id: new ObjectId(id) }, { $set: { status: status } });
@@ -61,6 +61,6 @@ export const deleteBookingServiceForAdmin = async (id) => {
   const result = await dbConnection(
     collections.BOOKINGSERVICESFORADMIN,
   ).deleteOne({ _id: new ObjectId(id) });
-  console.log(result);
+  // console.log(result);
   return result;
 };

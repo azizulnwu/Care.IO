@@ -1,7 +1,12 @@
 "use client";
 
-import { bookingServiceStatusUpdate, bookingServiceStatusUpdateForAdmin, deleteBookingService } from "@/action/server/bookingServiceData";
+import {
+  bookingServiceStatusUpdate,
+  bookingServiceStatusUpdateForAdmin,
+  deleteBookingService,
+} from "@/action/server/bookingServiceData";
 import { useRouter } from "next/navigation";
+import { MdOutlineReviews } from "react-icons/md";
 import { useState } from "react";
 import {
   FaCalendarDays,
@@ -18,6 +23,8 @@ import {
   FaCheck,
   FaTicket,
 } from "react-icons/fa6";
+import Link from "next/link";
+import Swal from "sweetalert2";
 
 const statusStyles = {
   pending: "bg-amber-50 text-amber-700 ring-amber-200",
@@ -49,29 +56,41 @@ const MyBookingPageComponents = ({ bookings = [] }) => {
   );
 
   // update status
-    const updateUserBookingStatus = async (id, status) => {
-      setLoadingId(true);
-      const response = await bookingServiceStatusUpdate (id, status);
-      if (response.modifiedCount > 0) {
-        setError("");
-        await bookingServiceStatusUpdateForAdmin(id, status)
-         setLoadingId(false);
-        router.refresh();
-        // onRefresh(); // Call the onRefresh function to refresh the data
-      }
-    };
-    // Delete completed service
-      const deleteBookingForUser = async (_id) => {
-        setLoadingId(true);
-        const response = await deleteBookingService(_id);
-        console.log(response);
-        if (response.deletedCount) {
-          setError("");
-          setLoadingId(false);
-          router.refresh();
-          // onRefresh(); // Call the onRefresh function to refresh the data
-        }
-      };
+  const updateUserBookingStatus = async (id, status) => {
+    setLoadingId(`${id}-${status}`);
+    const response = await bookingServiceStatusUpdate(id, status);
+    if (response.modifiedCount > 0) {
+      setError("");
+      await bookingServiceStatusUpdateForAdmin(id, status);
+      setLoadingId(false);
+      router.refresh();
+      // onRefresh(); // Call the onRefresh function to refresh the data
+    }
+  };
+  // Delete completed service
+  const deleteBookingForUser = async (id) => {
+  const { isConfirmed } = await Swal.fire({
+    title: "Delete this booking?",
+    text: "This action cannot be undone.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#F34E65",
+    confirmButtonText: "Yes, delete it",
+  });
+  if (!isConfirmed) return;
+
+  setLoadingId(`${id}-delete`);
+  try {
+    const res = await deleteBookingService(id);
+    if (!res?.deletedCount) throw new Error();
+    Swal.fire({ title: "Deleted!", icon: "success", timer: 1200, showConfirmButton: false });
+    router.refresh();
+  } catch {
+    Swal.fire({ title: "Error", text: "Could not delete the booking.", icon: "error" });
+  } finally {
+    setLoadingId("");
+  }
+};
 
   // Keep your existing updateStatus and deleteBooking functions here.
 
@@ -126,7 +145,7 @@ const MyBookingPageComponents = ({ bookings = [] }) => {
               const id = String(booking._id);
               const status = booking.status;
 
-              const isCompleteLoading = loadingId === `${id}-complete`;
+              const isCompleteLoading = loadingId === `${id}-completed`;
               const isDeleteLoading = loadingId === `${id}-delete`;
 
               return (
@@ -247,7 +266,7 @@ const MyBookingPageComponents = ({ bookings = [] }) => {
                           <p className="mt-1 text-2xl font-extrabold tracking-tight text-slate-800">
                             ৳
                             {Number(booking.totalPrice || 0).toLocaleString(
-                              "en-BD"
+                              "en-BD",
                             )}
                           </p>
                         </div>
@@ -259,7 +278,9 @@ const MyBookingPageComponents = ({ bookings = [] }) => {
                           <button
                             type="button"
                             disabled={Boolean(loadingId)}
-                            onClick={() => updateUserBookingStatus(id, "completed")}
+                            onClick={() =>
+                              updateUserBookingStatus(id, "completed")
+                            }
                             className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#1479C9] px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#1068ad] focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             {isCompleteLoading ? (
@@ -270,6 +291,17 @@ const MyBookingPageComponents = ({ bookings = [] }) => {
                             Complete
                           </button>
                         )}
+                        {/* {status === "completed" && (
+                          <Link
+                            // type="button"
+                            // disabled={Boolean(loadingId)}
+                            href={"/dashboard/user-review"}
+                            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#1479C9] px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#1068ad] focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            <MdOutlineReviews />
+                            Give Review
+                          </Link>
+                        )} */}
 
                         {(status === "completed" || status === "cancel") && (
                           <button

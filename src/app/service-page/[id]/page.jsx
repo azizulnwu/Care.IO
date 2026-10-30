@@ -1,6 +1,9 @@
 import { serviceDetails } from "@/action/server/serviceAll";
-import Navbar from "@/components/main-layout-components/Navbar";
+import Navbar from "../../../main-layout-components/Navbar";
 import ServiceDetailsPage from "@/components/service/ServiceDetailsPage";
+export const metadata = {
+  title: "Service Details",
+};
 
 const ServiceDetails = async ({ params }) => {
   const { id } = await params;
@@ -13,7 +16,6 @@ const ServiceDetails = async ({ params }) => {
           serviceDetailsInfo={{
             ...serviceDetailsInfo,
             _id: serviceDetailsInfo._id.toString(),
-            
           }}
         />
       </main>

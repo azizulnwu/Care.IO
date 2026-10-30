@@ -9,29 +9,39 @@ const privateRoutes = [
   "/my-profile",
   "/dashboard",
 ];
-// const adminRoutes = ["/dashboard"];
+const adminRoutes = ["/dashboard/users","/dashboard/payment-history"];
 
 export async function proxy(req) {
   const session = await getServerSession(authOptions);
+ 
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-
+// console.log(token)
   const isLogin = Boolean(token);
   const pathName = req.nextUrl.pathname;
+
   const isPrivateRoute = privateRoutes.some((route) =>
     pathName.startsWith(route),
   );
-  // const isAdminRoute = adminRoutes.some((route) => pathName.startsWith(route));
+
+  const isAdminRoute = adminRoutes.some((route) => pathName.startsWith(route));
+
+  //   if (!token) {
+  //   return NextResponse.redirect(new URL("/login", req.url));
+  // }
 
   if (isPrivateRoute && !isLogin) {
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("callbackUrl", pathName);
     return NextResponse.redirect(loginUrl);
   }
-  // if (isAdminRoute && (!isLogin || session.role !== "admin")) {
-  //   const loginUrl = new URL("/login", req.url);
+
+
+  if (isAdminRoute && (!isLogin || token?.role !== "admin")) {
+    const loginUrl = new URL("/login", req.url);
   //   // loginUrl.searchParams.set("callbackUrl",pathName); pathname error due to role check, so we don't set callbackUrl here
-  //   return NextResponse.redirect(loginUrl);
-  // }
+    return NextResponse.redirect(loginUrl);
+  }
+
 
   return NextResponse.next();
 }

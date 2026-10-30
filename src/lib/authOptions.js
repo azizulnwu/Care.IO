@@ -19,7 +19,7 @@ export const authOptions = {
           return user;
         }
 
-        return null;
+        return null
       },
     }),
     // ...add more providers here
@@ -45,6 +45,8 @@ export const authOptions = {
           email: user?.email,
           image: user?.image,
           provider: account?.provider,
+          contact:"",
+          address:"",
           createAt: new Date().toISOString(),
         };
 
@@ -69,16 +71,19 @@ export const authOptions = {
     },
 
     async jwt({ token, user, account, profile, isNewUser }) {
+      //  console.log("token",user)
       if (user) {
+        // console.log("user",user)
         const query = { email: user.email, provider: account.provider };
 
         const dbUser = await dbConnection(collections.USERS).findOne(query);
-
+        // console.log("dbUser",dbUser)
         token.email = dbUser?.email;
         token.role = dbUser?.role;
-        token.contact = user?.contact || "";
-        token.address = user?.address || "";
+        token.contact = dbUser?.contact;
+        token.address = dbUser?.address;
       }
+      
 
       return token;
     },

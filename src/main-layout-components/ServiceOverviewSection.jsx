@@ -1,12 +1,12 @@
 import { serviceOptions } from "@/action/server/serviceAll";
 
-import ServiceOverview from "../service/ServiceOverview";
+import ServiceOverview from "../components/service/ServiceOverview";
 
 const ServiceOverviewSection = async () => {
   const services = [];
   const data = await serviceOptions();
   services.push(
-    data.map((service) => ({ ...service, _id: service._id.toString()})),
+    data.map((service) => ({ ...service, _id: service._id.toString() })),
   );
   // console.log(services);
   return (

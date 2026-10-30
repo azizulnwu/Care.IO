@@ -1,11 +1,14 @@
-
 import {
   bookingServiceDataForAdmin,
   userBookingServiceData,
 } from "@/action/server/bookingServiceData";
-import DashboardHomePage from "@/components/dashbord-layout-components/DashboardHomePage";
+
 import authOptions from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
+import DashboardHomePage from "../../../dashboard-layout-components/DashboardHomePage";
+export const metadata = {
+  title: "Dashboard",
+};
 
 const DashboardHome = async () => {
   const session = await getServerSession(authOptions);

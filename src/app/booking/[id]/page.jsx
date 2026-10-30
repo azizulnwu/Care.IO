@@ -3,7 +3,9 @@ import { serviceDetails } from "@/action/server/serviceAll";
 import locations from "@/data/serviceLocation.json";
 import { RATES } from "@/lib/pricing";
 import BookingPage from "@/components/booking/BookingPage";
-
+export const metadata = {
+  title: "Booking Page",
+};
 
 const Booking = async ({ params }) => {
   const { id } = await params;

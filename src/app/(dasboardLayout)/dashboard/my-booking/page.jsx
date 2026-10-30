@@ -1,9 +1,13 @@
 import { userBookingServiceData } from "@/action/server/bookingServiceData";
-import MyBookingPageComponents from "@/components/dashbord-layout-components/MyBookingPageComponent";
+
 import authOptions from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
 import React from "react";
 import { FaTicket } from "react-icons/fa6";
+import MyBookingPageComponents from "../../../../dashboard-layout-components/MyBookingPageComponent";
+export const metadata = {
+  title: "My Booking",
+};
 
 const MyBooking = async () => {
   const session = await getServerSession(authOptions);

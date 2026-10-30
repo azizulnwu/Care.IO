@@ -4,10 +4,12 @@ import { serviceDetails } from "@/action/server/serviceAll";
 import { RATES } from "@/lib/pricing";
 import { bookingServices } from "@/action/server/order";
 
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req) {
-  // const session = await getServerSession(authOptions)
+  // const sessionForServer = await getServerSession(authOptions)
+ 
   try {
     const body = await req.json();
     // console.log("Request body:", body);
@@ -68,6 +70,7 @@ export async function POST(req) {
         },
       ],
       metadata: {
+        
         serviceId: id,
         category: service.category,
         hours: String(hours),
@@ -82,7 +85,9 @@ export async function POST(req) {
       success_url: `${process.env.NEXTAUTH_URL}/booking/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXTAUTH_URL}/booking/${id}`,
     });
-
+    
+    // console.log("checkout route",session)
+   
     return NextResponse.json({ url: session.url });
   } catch (err) {
     console.error(err);

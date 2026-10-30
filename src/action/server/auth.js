@@ -20,14 +20,38 @@ export const loginUser = async (email, password) => {
   const query = { email: email, provider: "credentials" };
 
   const user = await dbConnection(collections.USERS).findOne(query);
-
-  if (!user) return null;
+  // console.log(user)
+  if (!user) return null
 
   const isMatch = await bcrypt.compare(password, user.password);
-  console.log("isMatch", isMatch);
+  // console.log("isMatch", isMatch);
   if (isMatch) {
     return user;
   } else {
     return null;
   }
 };
+
+
+export const updateUserProfile =async(currentData,email)=>{
+   const query = {email:email,image:currentData.photo}
+  //  console.log(query)
+   const updateProfileData={
+   $set:{
+    image:currentData?.photo,
+    name: currentData?.name,
+    contact:currentData?.phone,
+    address:currentData?.address,
+
+   }
+   }
+   const result = await dbConnection(collections.USERS).updateMany(query,updateProfileData)
+  //  console.log(result)
+   if (result.acknowledged) {
+    return { success: true, message: "Profile data updated successfully." };
+  } else {
+    return { success: false, message:"Profile data updated failed."};
+  }
+
+}
+

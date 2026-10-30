@@ -1,8 +1,6 @@
 import Footer from "@/components/footer/Footer";
-import Navbar from "@/components/main-layout-components/Navbar";
+import Navbar from "../../main-layout-components/Navbar";
 
 export default function Home() {
-  return <div className="">
-    
-  </div>;
+  return <div className=""></div>;
 }
