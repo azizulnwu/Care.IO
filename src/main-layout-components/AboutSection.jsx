@@ -5,6 +5,7 @@ import {
   FaHandHoldingHeart,
 } from "react-icons/fa6";
 
+
 const tones = {
   blue: "bg-[#eaf4fc] text-[#1479C9] ring-[#1479C9]/15 group-hover:bg-[#1479C9] group-hover:text-white",
   pink: "bg-[#fff0f2] text-[#F34E65] ring-[#F34E65]/15 group-hover:bg-[#F34E65] group-hover:text-white",

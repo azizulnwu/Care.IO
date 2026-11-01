@@ -8,8 +8,47 @@ import {
   FaPeopleRoof,
   FaCircleCheck,
 } from "react-icons/fa6";
+// src/app/mission-vision/page.js (match your actual route)
 export const metadata = {
-  title: "Mission & vision",
+  title: "Our Mission & Vision",
+  description:
+    "Learn why families choose Care.io. Our mission is to make safe, compassionate and dependable care accessible to every family, with trained caregivers and clear communication.",
+
+  keywords: [
+    "Care.io mission",
+    "Care.io vision",
+    "about Care.io",
+    "trusted caregivers",
+    "compassionate home care",
+    "family care values",
+  ],
+
+  alternates: {
+    canonical: "/mission-vision", // match your actual route path
+  },
+
+  openGraph: {
+    type: "website",
+    url: "/mission-vision",
+    siteName: "Care.io",
+    title: "Our Mission & Vision | Care.io",
+    description:
+      "Care that gives families peace of mind and gives loved ones comfort. Discover the values behind Care.io.",
+    images: ["/opengraph-image.jpg"],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Our Mission & Vision | Care.io",
+    description:
+      "Safe, compassionate and dependable care for every family. Learn what drives Care.io.",
+     images: ["/opengraph-image.jpg"],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const missionPoints = [
