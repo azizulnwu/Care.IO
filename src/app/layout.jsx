@@ -8,7 +8,7 @@ const poppins = Poppins({
 });
 
 // src/app/layout.js
-const siteUrl = process.env.NEXTAUTH_URL || "https://your-domain.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
