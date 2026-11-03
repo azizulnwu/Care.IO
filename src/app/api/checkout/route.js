@@ -30,7 +30,7 @@ export async function POST(req) {
       !body.time ||
       !body.district ||
       !body.area ||
-      !body.address ||
+      !body.userAddress ||
       !body.phone
     ) {
       return NextResponse.json(
@@ -78,7 +78,7 @@ export async function POST(req) {
         time: body.time,
         district: body.district,
         area: body.area,
-        address: String(body.address).slice(0, 400),
+        userAddress: String(body.userAddress).slice(0, 400),
         phone: body.phone,
         notes: String(body.notes || "").slice(0, 400),
       },

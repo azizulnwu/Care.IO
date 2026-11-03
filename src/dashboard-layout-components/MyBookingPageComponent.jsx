@@ -217,7 +217,7 @@ const MyBookingPageComponents = ({ bookings = [] }) => {
 
                       <Detail
                         icon={<FaEnvelope />}
-                        label="Email Address"
+                        label="Email"
                         value={booking.userEmail}
                       />
 
@@ -243,14 +243,14 @@ const MyBookingPageComponents = ({ bookings = [] }) => {
 
                       <Detail
                         icon={<FaLocationDot />}
-                        label="Full Address"
-                        value={booking.address}
+                        label="User Address"
+                        value={booking.userAddress}
                       />
 
                       <Detail
                         icon={<FaClock />}
                         label="Booking Time"
-                        value={booking.createTimeAt}
+                        value={booking. serviceTime}
                       />
 
                       <div className="flex items-center gap-4 rounded-xl border border-blue-100 bg-blue-50/70 p-4">

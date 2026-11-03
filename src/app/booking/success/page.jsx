@@ -172,6 +172,7 @@ const SuccessPage = async ({ searchParams }) => {
           {/* Home Button */}
           <Link
             href="/"
+            
             className="group mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-xl bg-[#1479C9] px-6 py-3 font-bold text-white shadow-lg shadow-[#1479C9]/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1065A8] hover:shadow-xl hover:shadow-[#1479C9]/30 active:translate-y-0"
           >
             <FaHouse />

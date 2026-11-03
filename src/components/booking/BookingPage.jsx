@@ -23,7 +23,7 @@ const BookingPage = ({ service, districts }) => {
     time: "",
     district: "",
     area: "",
-    address: `${session?.address || ""}`,
+    userAddress: `${session?.address || ""}`,
     phone: `${session?.contact || ""}`,
     notes: "",
   });
@@ -247,18 +247,18 @@ const BookingPage = ({ service, districts }) => {
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label htmlFor="booking-address" className={label}>
-                      Full address
+                    <label htmlFor="booking-userAddress" className={label}>
+                      User address
                     </label>
                     <input
-                      id="booking-address"
+                      id="booking-userAddress"
                       // required
                       // defaultValue={session?.address || ""}
                       autoComplete="street-address"
                       className={field}
                       placeholder="House, road, landmark"
-                      value={form.address}
-                      onChange={set("address")}
+                      value={form.userAddress}
+                      onChange={set("userAddress")}
                     />
                   </div>
                 </div>

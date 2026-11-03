@@ -1,4 +1,5 @@
-import UserReviewPage from "@/components/user-review/UserReviewPage";
+import UserReviewPage from "../../../../../user-review/UserReviewPage";
+
 
 
 export const metadata = {

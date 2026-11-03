@@ -19,7 +19,7 @@ export const authOptions = {
           return user;
         }
 
-        return null
+        return null;
       },
     }),
     // ...add more providers here
@@ -45,8 +45,8 @@ export const authOptions = {
           email: user?.email,
           image: user?.image,
           provider: account?.provider,
-          contact:"",
-          address:"",
+          contact: "",
+          address: "",
           createAt: new Date().toISOString(),
         };
 
@@ -83,7 +83,6 @@ export const authOptions = {
         token.contact = dbUser?.contact;
         token.address = dbUser?.address;
       }
-      
 
       return token;
     },

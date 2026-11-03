@@ -78,12 +78,12 @@ const RegisterPage = () => {
     const result = await registerUser(userData);
 
     if (result.success) {
-      toast(result.message);
+      toast.success("Registration Successful");
       form.reset();
-      router.push("/login")
+      setTimeout(() => router.push("/login"), 800);
 
     } else {
-      toast(result.message);
+      toast.error(result.message);
     }
 
     // ================= VALIDATION =================

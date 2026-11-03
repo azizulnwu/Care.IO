@@ -51,7 +51,7 @@ const LoginPage = () => {
       redirect: false,
       callbackUrl: callbackUrl,
     });
-console.log("signIn result:", result);
+    console.log("signIn result:", result);
     if (result?.error) {
       setLoading(false);
       // alert("Invalid Email or Password.Try Google Login or register.")
@@ -61,7 +61,7 @@ console.log("signIn result:", result);
       toast.success("Login Successful");
       console.log("callbackUrl", callbackUrl);
       // router.refresh(); // clears the client router cache so the stale redirect is dropped
-        window.location.replace(callbackUrl);
+      setTimeout(() => window.location.replace(callbackUrl), 800);
     }
   };
 
@@ -75,8 +75,9 @@ console.log("signIn result:", result);
     });
 
     if (result) {
-      toast.success("Login Successful");
-      router.push(callbackUrl);
+      toast.success("Google Login Successful");
+      setTimeout(() => router.push(callbackUrl), 800);
+      // router.push(callbackUrl);
     }
   };
 

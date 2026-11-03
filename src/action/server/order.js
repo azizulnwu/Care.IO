@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth";
 
 export const bookingServices = async (data) => {
   const session = await getServerSession(authOptions);
-
+  console.log("session", session);
   const query = {
     serviceName: data.serviceName,
     area: data.area,
@@ -35,16 +35,18 @@ export const bookingServices = async (data) => {
     hours: data.hours,
     district: data.district,
     area: data.area,
-    address: data.address,
+    userAddress: data.userAddress,
     phone: data.phone,
+
     trackingNumber: `TRK-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
     serviceDate: new Date().toISOString().split("T")[0],
-    createTimeAt: new Date().toLocaleTimeString("en-US", {
+    serviceTime: new Date().toLocaleTimeString("en-US", {
       timeZone: "Asia/Dhaka",
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
     }),
+    createAt: new Date().toISOString(),
   };
 
   const insertResult = await dbConnection(

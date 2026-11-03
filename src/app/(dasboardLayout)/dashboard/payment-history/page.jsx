@@ -9,7 +9,7 @@ export default async function PaymentHistoryPage() {
   const payments = await getMyPayments();
 
   return (
-    <div className="p-4">
+    <div className="min-w-0 flex-1 overflow-x-hidden p-4">
       <PaymentHistory payments={payments} />
     </div>
   );
